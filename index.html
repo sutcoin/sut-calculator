@@ -74,23 +74,40 @@
     .banner {
       margin-top: 20px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .banner a {
-      display: inline-block;
-      background-color: #FEE500;
-      color: #000;
+      display: block;
       padding: 12px 20px;
       border-radius: 10px;
       font-weight: bold;
       text-decoration: none;
       font-size: 1rem;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease;
+      transition: opacity 0.3s ease;
     }
 
     .banner a:hover {
-      background-color: #ffdd00;
+      opacity: 0.85;
+    }
+
+    /* 색상별 배너 버튼 */
+    .kakao {
+      background-color: #FEE500;
+      color: #000;
+    }
+
+    .naver {
+      background-color: #4CAF50;
+      color: #fff;
+    }
+
+    .blue {
+      background-color: #29b6f6;
+      color: #fff;
     }
 
     @media (max-width: 480px) {
@@ -125,14 +142,16 @@
     <input type="number" id="discount" placeholder="예: 10">
 
     <label for="sutPrice">현재 SUT 매도 가격 (₩)</label>
-    <input type="number" id="sutPrice" placeholder="예: 2500">
+    <input type="number" id="sutPrice" placeholder="예: 3500">
 
     <button onclick="calculateSUT()">입금할 SUT 갯수 계산</button>
 
     <div class="result" id="result">결과가 여기에 표시됩니다.</div>
 
     <div class="banner">
-      <a href="https://open.kakao.com/o/sqfjrA1h" target="_blank">💬 SUT 사용 후기 남기기</a>
+      <a class="kakao" href="https://open.kakao.com/o/s9A6fy1h" target="_blank">💬 SUT 사용 후기 남기기</a>
+      <a class="naver" href="https://naver.me/5r3pPDqQ" target="_blank">🗺 SUT 사용 지도 보기</a>
+      <a class="blue" href="https://sutcoin.github.io/event/" target="_blank">👁 SUT 사용 후기 보기</a>
     </div>
   </div>
 
@@ -156,5 +175,3 @@
   </script>
 </body>
 </html>
-
-
