@@ -1,39 +1,179 @@
-<!-- ✅ 수정된 HTML 중간 부분만 아래처럼 추가해 주세요 -->
-
-<label for="sutPrice">고팍스 DST 현재가 (₩)</label>
-<input type="number" id="sutPrice" placeholder="예: 3500">
-
-<!-- ✅ 이미지 팝업 버튼 추가 -->
-<div style="text-align:center; margin-top: 10px;">
-  <button onclick="openPopup()" style="padding: 10px 16px; border-radius: 8px; background-color: #333; color: white; font-size: 0.95rem;">
-    📸 DST 시세 이미지 보기
-  </button>
-</div>
-
-<!-- ✅ 팝업 열기 함수 -->
-<script>
-  function openPopup() {
-    window.open(
-      "https://sutcoin.github.io/images/gopax-dst-price.png",
-      "popupWindow",
-      "width=420,height=360,scrollbars=no"
-    );
-  }
-
-  function calculateSUT() {
-    const total = parseFloat(document.getElementById("total").value);
-    const discount = parseFloat(document.getElementById("discount").value);
-    const sutPrice = parseFloat(document.getElementById("sutPrice").value);
-    const resultElement = document.getElementById("result");
-
-    if (isNaN(total) || isNaN(discount) || isNaN(sutPrice) || sutPrice === 0) {
-      resultElement.textContent = "모든 값을 정확히 입력해주세요.";
-      return;
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUT 계산기</title>
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-    const discountedAmount = total * (1 - discount / 100);
-    const sutAmount = discountedAmount / sutPrice;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
 
-    resultElement.textContent = `입금할 SUT 갯수: ${sutAmount.toFixed(2)}개`;
-  }
-</script>
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      font-size: 1.1rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .banner {
+      margin-top: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .banner a {
+      display: block;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: opacity 0.3s ease;
+    }
+
+    .banner a:hover {
+      opacity: 0.85;
+    }
+
+    /* 색상별 배너 버튼 */
+    .youtube {
+      background-color: #EF9A9A;
+      color: #000;
+    }
+
+    .naver {
+      background-color: #4CAF50;
+      color: #fff;
+    }
+
+    .blue {
+      background-color: #29b6f6;
+      color: #fff;
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      input, button {
+        font-size: 1rem;
+        padding: 12px;
+      }
+
+      .result {
+        font-size: 1.1rem;
+      }
+
+      .banner a {
+        font-size: 0.95rem;
+        padding: 10px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>SUT 입금 계산기</h2>
+
+    <label for="total">총액 (₩)</label>
+    <input type="number" id="total" placeholder="예: 1000000">
+
+    <label for="discount">할인율 (%)</label>
+    <input type="number" id="discount" placeholder="예: 10">
+
+    <label for="sutPrice">고팍스 DST 현재가 (₩)</label>
+    <input type="number" id="sutPrice" placeholder="예: 3500">
+
+    <button onclick="calculateSUT()">입금할 SUT 갯수 계산</button>
+
+    <div class="result" id="result">결과가 여기에 표시됩니다.</div>
+
+    <div class="banner">
+      <a class="youtube" href="https://youtu.be/0G693m1ACmU" target="_blank">▶️ SUT 매장등록 참고 영상</a>
+      <a class="naver" href="https://naver.me/5r3pPDqQ" target="_blank">🗺 SUT 사용 지도 보기</a>
+      <a class="blue" href="https://sutcoin.github.io/event/" target="_blank">👁 SUT 사용 후기 보기</a>
+    </div>
+  </div>
+
+  <script>
+    function calculateSUT() {
+      const total = parseFloat(document.getElementById("total").value);
+      const discount = parseFloat(document.getElementById("discount").value);
+      const sutPrice = parseFloat(document.getElementById("sutPrice").value);
+      const resultElement = document.getElementById("result");
+
+      if (isNaN(total) || isNaN(discount) || isNaN(sutPrice) || sutPrice === 0) {
+        resultElement.textContent = "모든 값을 정확히 입력해주세요.";
+        return;
+      }
+
+      const discountedAmount = total * (1 - discount / 100);
+      const sutAmount = discountedAmount / sutPrice;
+
+      resultElement.textContent = `입금할 SUT 갯수: ${sutAmount.toFixed(2)}개`;
+    }
+  </script>
+</body>
+</html>
+
+
