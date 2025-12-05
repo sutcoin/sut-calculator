@@ -94,7 +94,10 @@
       opacity: 0.85;
     }
 
-    /* 색상별 배너 버튼 */
+    .popup-button {
+      margin-top: 15px;
+    }
+
     .youtube {
       background-color: #EF9A9A;
       color: #000;
@@ -144,6 +147,11 @@
     <label for="sutPrice">고팍스 DST 현재가 (₩)</label>
     <input type="number" id="sutPrice" placeholder="예: 3500">
 
+    <!-- 실시간 시세 팝업 버튼 -->
+    <div class="popup-button">
+      <button onclick="openPopup()">🌐 고팍스 DST 시세 보기</button>
+    </div>
+
     <button onclick="calculateSUT()">입금할 SUT 갯수 계산</button>
 
     <div class="result" id="result">결과가 여기에 표시됩니다.</div>
@@ -172,8 +180,14 @@
 
       resultElement.textContent = `입금할 SUT 갯수: ${sutAmount.toFixed(2)}개`;
     }
+
+    function openPopup() {
+      window.open(
+        "https://www.gopax.co.kr/exchange?market=dst-krw",
+        "popupWindow",
+        "width=1024,height=800,scrollbars=yes"
+      );
+    }
   </script>
 </body>
 </html>
-
-
