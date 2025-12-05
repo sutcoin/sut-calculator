@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SUT 계산기</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: Arial, sans-serif;
@@ -94,40 +92,22 @@
       opacity: 0.85;
     }
 
-    /* 색상별 배너 버튼 */
-    .youtube {
-      background-color: #EF9A9A;
-      color: #000;
-    }
-
-    .naver {
-      background-color: #4CAF50;
-      color: #fff;
-    }
-
-    .blue {
-      background-color: #29b6f6;
-      color: #fff;
-    }
+    .youtube { background-color: #EF9A9A; color: #000; }
+    .naver { background-color: #4CAF50; color: #fff; }
+    .blue { background-color: #29b6f6; color: #fff; }
 
     @media (max-width: 480px) {
-      h2 {
-        font-size: 1.3rem;
-      }
+      h2 { font-size: 1.3rem; }
+      input, button { font-size: 1rem; padding: 12px; }
+      .result { font-size: 1.1rem; }
+      .banner a { font-size: 0.95rem; padding: 10px 16px; }
+    }
 
-      input, button {
-        font-size: 1rem;
-        padding: 12px;
-      }
-
-      .result {
-        font-size: 1.1rem;
-      }
-
-      .banner a {
-        font-size: 0.95rem;
-        padding: 10px 16px;
-      }
+    small {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: gray;
     }
   </style>
 </head>
@@ -143,6 +123,7 @@
 
     <label for="sutPrice">고팍스 DST 현재가 (₩)</label>
     <input type="number" id="sutPrice" placeholder="예: 3500">
+    <small id="sutPriceNote">실시간 시세를 불러오는 중입니다...</small>
 
     <button onclick="calculateSUT()">입금할 SUT 갯수 계산</button>
 
@@ -156,6 +137,22 @@
   </div>
 
   <script>
+    // 실시간 고팍스 시세 반영
+    async function setDSTPriceFromGopax() {
+      try {
+        const response = await fetch("https://api.gopax.co.kr/trading-pairs/dst-krw/ticker");
+        const data = await response.json();
+        const price = parseFloat(data.price);
+
+        document.getElementById("sutPrice").value = price.toFixed(0);
+        document.getElementById("sutPriceNote").textContent = `고팍스 기준 실시간 시세: ₩${price.toLocaleString()}원`;
+      } catch (error) {
+        console.error("시세 불러오기 실패:", error);
+        document.getElementById("sutPriceNote").textContent = "시세 불러오기 실패 (직접 입력해주세요)";
+      }
+    }
+
+    // 계산기 로직
     function calculateSUT() {
       const total = parseFloat(document.getElementById("total").value);
       const discount = parseFloat(document.getElementById("discount").value);
@@ -172,7 +169,9 @@
 
       resultElement.textContent = `입금할 SUT 갯수: ${sutAmount.toFixed(2)}개`;
     }
+
+    // 페이지 로드 시 시세 불러오기
+    window.onload = setDSTPriceFromGopax;
   </script>
 </body>
 </html>
-
