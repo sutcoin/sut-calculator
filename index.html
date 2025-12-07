@@ -144,14 +144,10 @@
     <label for="discount">할인율 (%)</label>
     <input type="number" id="discount" placeholder="예: 10">
 
-    <label for="sutPrice">고팍스 DST 현재가 (₩)</label>
+    <label for="sutPrice">SUT 기준가 (₩)</label>
     <input type="number" id="sutPrice" placeholder="예: 3500">
 
     <!-- 실시간 시세 팝업 버튼 -->
-    <div class="popup-button">
-      <button onclick="openPopup()">🌐 고팍스 DST 시세 보기</button>
-    </div>
-
     <button onclick="calculateSUT()">입금할 SUT 갯수 계산</button>
 
     <div class="result" id="result">결과가 여기에 표시됩니다.</div>
